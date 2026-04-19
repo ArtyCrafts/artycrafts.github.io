@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arty Crafts — Bring Creativity Into Everything You Make</title>
+
+  <!-- ════════════════════════════════════════════════════
+       FONTS
+       Want a different font? Go to fonts.google.com,
+       pick one, and replace the family names below.
+  ════════════════════════════════════════════════════ -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ════════════════════════════════════════════════════
+       COLORS — edit these to change the whole site's look.
+       A hex code is the # followed by 6 letters/numbers.
+       Use coolors.co to pick new ones!
+    ════════════════════════════════════════════════════ */
+    :root {
+      --red:    #E24B4A;
+      --amber:  #EF9F27;   /* ← main accent color (buttons, highlights) */
+      --green:  #639922;
+      --blue:   #378ADD;
+      --purple: #7F77DD;
+      --pink:   #D4537E;
+      --teal:   #1D9E75;
+      --cream:  #FDF8F0;   /* ← page background */
+      --dark:   #2C2C2A;   /* ← text color & dark buttons */
+      --muted:  #888780;   /* ← grey/subtle text */
+      --white:  #FFFFFF;
+    }
+
+    /* ════════════════════════════════════════════════════
+       RESET — don't touch this, it just clears browser defaults
+    ════════════════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif; /* ← change font here */
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ════════════════════════════════════════════════════
+       NAVIGATION BAR (the top menu)
+       - padding controls how tall/wide it is
+       - nav.scrolled changes appearance when user scrolls
+    ════════════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(253,248,240,0.92);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 48px; /* ← top/bottom left/right spacing */
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: #e8e0d0; }
+
+    .nav-logo svg { height: 54px; width: auto; } /* ← logo size in nav */
+
+    .nav-links {
+      display: flex;
+      gap: 32px; /* ← space between nav items */
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 15px; /* ← nav link font size */
+      letter-spacing: 0.5px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 2px;
+      background: var(--amber); /* ← underline color on hover */
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* The "Shop Now" button in the nav */
+    .nav-cta {
+      background: var(--dark);
+      color: var(--white) !important;
+      padding: 9px 22px;
+      border-radius: 50px;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--amber) !important; color: var(--white) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* ════════════════════════════════════════════════════
+       HERO SECTION (the big opening section)
+       - min-height: 100vh means it fills the whole screen
+       - padding-top: 120px clears the fixed navbar
+    ════════════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle dot pattern in the background */
+    .hero-bg-dots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      background-image: radial-gradient(circle, var(--dark) 1.5px, transparent 1.5px);
+      background-size: 32px 32px; /* ← spacing of the dots */
+    }
+
+    /* The blurry colored circles floating in the background */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px); /* ← blur amount, higher = softer */
+      opacity: 0.18;      /* ← transparency, 0=invisible 1=solid */
+      animation: floatBlob 8s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 340px; height: 340px; background: var(--amber); top: -80px; left: -80px; animation-delay: 0s; }
+    .blob-2 { width: 260px; height: 260px; background: var(--pink);  top: 20%;  right: -60px; animation-delay: 2s; }
+    .blob-3 { width: 200px; height: 200px; background: var(--blue);  bottom: 10%; left: 5%;   animation-delay: 4s; }
+    .blob-4 { width: 180px; height: 180px; background: var(--green); bottom: -40px; right: 10%; animation-delay: 1s; }
+
+    @keyframes floatBlob {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(20px, 30px) scale(1.08); }
+    }
+
+    /* Logo size in the hero */
+    .hero-logo {
+      width: min(380px, 80vw); /* ← max width, responsive */
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    /* ════════════ EDIT YOUR HEADLINE HERE ════════════
+       clamp(min, preferred, max) = responsive font size
+    ════════════════════════════════════════════════ */
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.15;
+      max-width: 720px;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero h1 span { color: var(--amber); } /* ← color of the highlighted word */
+
+    /* ════════════ EDIT YOUR SUBTITLE HERE ════════════ */
+    .hero p {
+      margin-top: 20px;
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .hero-dots {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+    .hero-dots span { width: 10px; height: 10px; border-radius: 50%; }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+
+    /* ════════════════════════════════════════════════════
+       BUTTONS
+       .btn-primary = dark filled button
+       .btn-outline  = transparent button with border
+       Change padding to make them bigger/smaller
+    ════════════════════════════════════════════════════ */
+    .btn {
+      display: inline-block;
+      padding: 14px 32px; /* ← button size */
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .btn-primary { background: var(--dark); color: var(--white); }
+    .btn-outline  { background: transparent; color: var(--dark); border: 2.5px solid var(--dark); }
+    .btn-outline:hover { background: var(--dark); color: var(--white); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════════════════════════════
+       SHARED SECTION STYLES (used across all sections)
+    ════════════════════════════════════════════════════ */
+    section { padding: 96px 24px; } /* ← top/bottom padding of each section */
+    .section-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--amber); /* ← small label color above titles */
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      line-height: 1.2;
+      max-width: 560px;
+    }
+    .section-sub {
+      margin-top: 14px;
+      color: var(--muted);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+    .text-center { text-align: center; }
+    .text-center .section-title,
+    .text-center .section-sub { margin-left: auto; margin-right: auto; }
+
+    /* ════════════════════════════════════════════════════
+       PRODUCTS SECTION
+       products-grid uses CSS Grid — auto-fill = as many
+       columns as fit, each at least 200px wide
+    ════════════════════════════════════════════════════ */
+    .products { background: var(--white); }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* ← card min width */
+      gap: 24px; /* ← gap between cards */
+      margin-top: 56px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .product-card {
+      background: var(--cream);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: default;
+    }
+    .product-card:hover {
+      transform: translateY(-6px); /* ← how much cards rise on hover */
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+
+    /* The emoji icon area at the top of each card */
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1; /* ← keeps it square */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem; /* ← emoji size */
+      background: linear-gradient(135deg, #fff8ee, #fff0f5);
+    }
+
+    .product-info {
+      padding: 16px 18px 20px;
+    }
+    .product-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+    }
+    .product-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+    /* The colored pill tag on each card (e.g. "Fan Favorite") */
+    .product-tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+
+    /* ════════════════════════════════════════════════════
+       WHY US SECTION
+    ════════════════════════════════════════════════════ */
+    .why { background: var(--cream); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 32px;
+      margin-top: 56px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .why-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: transform 0.25s;
+    }
+    .why-card:hover { transform: translateY(-4px); }
+    .why-icon { font-size: 2.4rem; margin-bottom: 16px; } /* ← icon size */
+    .why-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 8px; }
+    .why-card p  { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    /* ════════════════════════════════════════════════════
+       STORES SECTION
+       To activate a store: change <div class="store-card coming">
+       to <a href="YOUR_STORE_URL" target="_blank" class="store-card shopee">
+    ════════════════════════════════════════════════════ */
+    .stores { background: var(--white); }
+
+    .stores-note {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .stores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .store-card {
+      border-radius: 20px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      color: var(--dark);
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 2.5px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .store-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+    .store-icon { font-size: 3rem; margin-bottom: 16px; }
+    .store-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 8px; }
+    .store-card p  { font-size: 0.87rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+    .store-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 50px;
+      color: var(--white);
+    }
+
+    /* Card color themes — edit background and border-color to match each platform */
+    .store-card.raket   { background: #fffbf2; border-color: #f0d9a0; }
+    .store-card.shopee  { background: #fff5f0; border-color: #f9c4a8; }
+    .store-card.lazada  { background: #f0f5ff; border-color: #a8b8f9; }
+    .store-card.tiktok  { background: #f0fbf5; border-color: #9ddec0; }
+    .store-card.coming  { background: #f8f8f8; border-color: #ddd; opacity: 0.7; pointer-events: none; }
+
+    /* ════════════════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════════════════ */
+    footer {
+      background: var(--dark); /* ← footer background */
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .footer-logo { margin-bottom: 20px; }
+    .footer-logo svg { height: 60px; filter: brightness(0) invert(1) opacity(0.85); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--amber); }
+    .footer-dots { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
+    .footer-dots span { width: 8px; height: 8px; border-radius: 50%; }
+    footer p { font-size: 0.82rem; }
+
+    /* ════════════════════════════════════════════════════
+       MOBILE MENU (hamburger icon for small screens)
+    ════════════════════════════════════════════════════ */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 26px; height: 2.5px; background: var(--dark); border-radius: 3px; transition: 0.3s; }
+
+    @media (max-width: 700px) {
+      nav { padding: 12px 20px; }
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px; left: 0; right: 0;
+        background: var(--cream);
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        padding: 28px 0;
+        border-bottom: 2px solid #e8e0d0;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      }
+      .nav-links.open { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     NAVIGATION BAR
+     To add a new nav link, copy one <li> and change
+     the href="#section-id" and the text.
+════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <!-- This is the SVG logo — don't edit unless you have a new logo file -->
+    <svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Arty Crafts Logo</title>
+      <defs>
+        <mask id="nav-text-gaps" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="680" height="320" fill="white"/><rect x="302.9" y="79.9" width="173.4" height="85.9" fill="black" rx="2"/><rect x="273.2" y="151.9" width="233.7" height="85.9" fill="black" rx="2"/><rect x="282" y="255.3" width="215.4" height="17.2" fill="black" rx="2"/></mask>
+      </defs>
+      <g transform="translate(160, 60)">
+        <path d="M80,10 C110,5 160,20 170,60 C185,105 165,150 130,160 C100,168 60,155 40,130 C20,108 15,75 25,52 C38,22 55,14 80,10 Z" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1.5"/>
+        <ellipse cx="125" cy="145" rx="18" ry="13" transform="rotate(-20,125,145)" fill="#D3D1C7"/>
+        <circle cx="55" cy="42" r="14" fill="#F09595"/><circle cx="55" cy="42" r="10" fill="#E24B4A"/>
+        <circle cx="100" cy="28" r="14" fill="#FAC775"/><circle cx="100" cy="28" r="10" fill="#EF9F27"/>
+        <circle cx="148" cy="48" r="14" fill="#C0DD97"/><circle cx="148" cy="48" r="10" fill="#639922"/>
+        <circle cx="158" cy="98" r="14" fill="#B5D4F4"/><circle cx="158" cy="98" r="10" fill="#378ADD"/>
+        <circle cx="40" cy="95" r="14" fill="#CECBF6"/><circle cx="40" cy="95" r="10" fill="#7F77DD"/>
+        <circle cx="55" cy="142" r="14" fill="#F4C0D1"/><circle cx="55" cy="142" r="10" fill="#D4537E"/>
+        <rect x="162" y="30" width="8" height="60" rx="3" fill="#BA7517" transform="rotate(35,162,30)"/>
+        <rect x="160" y="28" width="8" height="18" rx="2" fill="#888780" transform="rotate(35,162,30)"/>
+        <ellipse cx="155" cy="20" rx="5" ry="9" fill="#2C2C2A" transform="rotate(35,155,20)"/>
+      </g>
+      <text x="390" y="148" font-size="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" fill="#2C2C2A">Arty</text>
+      <text x="390" y="220" font-size="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" fill="#2C2C2A">Crafts</text>
+      <line x1="290" y1="235" x2="490" y2="235" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" mask="url(#nav-text-gaps)"/>
+      <text x="390" y="268" font-size="12" text-anchor="middle" font-family="Arial,sans-serif" fill="#888780">WEAR YOUR CREATIVITY</text>
+      <circle cx="344" cy="283" r="4" fill="#E24B4A"/>
+      <circle cx="358" cy="283" r="4" fill="#EF9F27"/>
+      <circle cx="372" cy="283" r="4" fill="#639922"/>
+      <circle cx="386" cy="283" r="4" fill="#378ADD"/>
+      <circle cx="400" cy="283" r="4" fill="#7F77DD"/>
+      <circle cx="414" cy="283" r="4" fill="#D4537E"/>
+      <circle cx="428" cy="283" r="4" fill="#1D9E75"/>
+      <circle cx="442" cy="283" r="4" fill="#EF9F27"/>
+    </svg>
+  </a>
+
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- ════ EDIT NAV LINKS HERE ════
+       href="#products" scrolls to the section with id="products"
+       href="https://..." opens an external website
+  -->
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#stores">Our Stores</a></li>
+    <li><a href="https://www.facebook.com/profile.php?id=61586335522119" target="_blank">Facebook</a></li>
+    <li><a href="#stores" class="nav-cta">Shop Now</a></li>
+  </ul>
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════
+     HERO SECTION
+     ✏️ Edit: <h1>, <p>, and button text/links
+════════════════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg-dots"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+
+  <!-- Logo in hero — same SVG as nav, just bigger -->
+  <svg class="hero-logo" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <mask id="hero-text-gaps" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="680" height="320" fill="white"/><rect x="302.9" y="79.9" width="173.4" height="85.9" fill="black" rx="2"/><rect x="273.2" y="151.9" width="233.7" height="85.9" fill="black" rx="2"/><rect x="282" y="255.3" width="215.4" height="17.2" fill="black" rx="2"/></mask>
+    </defs>
+    <g transform="translate(160, 60)">
+      <path d="M80,10 C110,5 160,20 170,60 C185,105 165,150 130,160 C100,168 60,155 40,130 C20,108 15,75 25,52 C38,22 55,14 80,10 Z" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1.5"/>
+      <ellipse cx="125" cy="145" rx="18" ry="13" transform="rotate(-20,125,145)" fill="#D3D1C7"/>
+      <circle cx="55" cy="42" r="14" fill="#F09595"/><circle cx="55" cy="42" r="10" fill="#E24B4A"/>
+      <circle cx="100" cy="28" r="14" fill="#FAC775"/><circle cx="100" cy="28" r="10" fill="#EF9F27"/>
+      <circle cx="148" cy="48" r="14" fill="#C0DD97"/><circle cx="148" cy="48" r="10" fill="#639922"/>
+      <circle cx="158" cy="98" r="14" fill="#B5D4F4"/><circle cx="158" cy="98" r="10" fill="#378ADD"/>
+      <circle cx="40" cy="95" r="14" fill="#CECBF6"/><circle cx="40" cy="95" r="10" fill="#7F77DD"/>
+      <circle cx="55" cy="142" r="14" fill="#F4C0D1"/><circle cx="55" cy="142" r="10" fill="#D4537E"/>
+      <rect x="162" y="30" width="8" height="60" rx="3" fill="#BA7517" transform="rotate(35,162,30)"/>
+      <rect x="160" y="28" width="8" height="18" rx="2" fill="#888780" transform="rotate(35,162,30)"/>
+      <ellipse cx="155" cy="20" rx="5" ry="9" fill="#2C2C2A" transform="rotate(35,155,20)"/>
+    </g>
+    <text x="390" y="148" font-size="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" fill="#2C2C2A">Arty</text>
+    <text x="390" y="220" font-size="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" fill="#2C2C2A">Crafts</text>
+    <line x1="290" y1="235" x2="490" y2="235" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" mask="url(#hero-text-gaps)"/>
+    <text x="390" y="268" font-size="12" text-anchor="middle" font-family="Arial,sans-serif" fill="#888780">WEAR YOUR CREATIVITY</text>
+    <circle cx="344" cy="283" r="4" fill="#E24B4A"/><circle cx="358" cy="283" r="4" fill="#EF9F27"/>
+    <circle cx="372" cy="283" r="4" fill="#639922"/><circle cx="386" cy="283" r="4" fill="#378ADD"/>
+    <circle cx="400" cy="283" r="4" fill="#7F77DD"/><circle cx="414" cy="283" r="4" fill="#D4537E"/>
+    <circle cx="428" cy="283" r="4" fill="#1D9E75"/><circle cx="442" cy="283" r="4" fill="#EF9F27"/>
+  </svg>
+
+  <!-- ✏️ EDIT: Your main headline. The <span> word gets colored. -->
+  <h1>Bring Creativity Into<br><span>Everything You Make.</span></h1>
+
+  <!-- ✏️ EDIT: Your subtitle / short description -->
+  <p>Handcrafted products that spark joy — from wearables to stationery, every piece is made with love and color.</p>
+
+  <!-- Colored dots decoration (matches brand palette) -->
+  <div class="hero-dots">
+    <span style="background:#E24B4A"></span>
+    <span style="background:#EF9F27"></span>
+    <span style="background:#639922"></span>
+    <span style="background:#378ADD"></span>
+    <span style="background:#7F77DD"></span>
+    <span style="background:#D4537E"></span>
+    <span style="background:#1D9E75"></span>
+  </div>
+
+  <!-- ✏️ EDIT: Button text and links -->
+  <div class="hero-btns">
+    <a href="#stores" class="btn btn-primary">Shop Our Stores</a>
+    <a href="#products" class="btn btn-outline">See Products</a>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     PRODUCTS SECTION
+     ✏️ To add a product: copy one full <div class="product-card"> block
+     ✏️ To remove a product: delete one full block
+     ✏️ To edit: change the emoji, h3 title, p description, and tag text
+════════════════════════════════════════════════════ -->
+<section class="products" id="products">
+  <div class="text-center">
+    <!-- ✏️ EDIT: small label above title -->
+    <span class="section-label">What We Make</span>
+    <!-- ✏️ EDIT: section title -->
+    <h2 class="section-title">Creative Products<br>for Every Occasion</h2>
+    <!-- ✏️ EDIT: section subtitle -->
+    <p class="section-sub">From children's books to custom wearables — all designed to inspire creativity.</p>
+  </div>
+
+  <div class="products-grid">
+
+    <!-- PRODUCT CARD — copy this whole block to add a new product -->
+    <div class="product-card">
+      <div class="product-img">📚</div> <!-- ✏️ Change emoji here -->
+      <div class="product-info">
+        <h3>Children's Books</h3> <!-- ✏️ Product name -->
+        <p>Imaginative stories that fuel young minds — like The Cosmic Crayon Quest.</p> <!-- ✏️ Description -->
+        <!-- ✏️ Tag: change background and color for different colors, and the text -->
+        <span class="product-tag" style="background:#fff0e0;color:#EF9F27;">Fan Favorite</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">☕</div>
+      <div class="product-info">
+        <h3>Custom Mugs</h3>
+        <p>Start your day with art. Geometric designs printed to last.</p>
+        <span class="product-tag" style="background:#e8f4ff;color:#378ADD;">Drinkware</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">👕</div>
+      <div class="product-info">
+        <h3>Graphic Tees</h3>
+        <p>Wear your personality. Original Arty Crafts art on premium tees.</p>
+        <span class="product-tag" style="background:#f0f9e8;color:#639922;">Apparel</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🃏</div>
+      <div class="product-info">
+        <h3>Flash Cards</h3>
+        <p>Cute illustrated flash cards — perfect for early learners.</p>
+        <span class="product-tag" style="background:#fce8f0;color:#D4537E;">Educational</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">👜</div>
+      <div class="product-info">
+        <h3>Tote Bags</h3>
+        <p>Carry your creativity everywhere. Canvas totes with original prints.</p>
+        <span class="product-tag" style="background:#eeedfb;color:#7F77DD;">Accessories</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🎨</div>
+      <div class="product-info">
+        <h3>Patches & Pins</h3>
+        <p>Add a splash of art to jackets, bags, and more.</p>
+        <span class="product-tag" style="background:#e8faf4;color:#1D9E75;">Decor</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     WHY US SECTION
+     ✏️ Edit the icon emoji, h3, and p for each card
+════════════════════════════════════════════════════ -->
+<section class="why" id="why">
+  <div class="text-center">
+    <span class="section-label">Why Arty Crafts</span>
+    <h2 class="section-title">Made With Heart,<br>Shipped With Care</h2>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🎨</div> <!-- ✏️ Change emoji -->
+      <h3>Original Designs</h3>
+      <p>Every product features artwork created in-house — no generic templates, just genuine creativity.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💛</div>
+      <h3>Made with Love</h3>
+      <p>We pour care into every piece, from the concept to the packaging you open at home.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌈</div>
+      <h3>For All Ages</h3>
+      <p>Whether you're a kid who loves books or an adult who loves artsy accessories — we've got something for you.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🚀</div>
+      <h3>Growing Catalog</h3>
+      <p>New designs and products drop regularly. Follow us to never miss a release.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     STORES SECTION
+     ✏️ To ACTIVATE a coming-soon store:
+        1. Change <div class="store-card coming"> to:
+           <a href="YOUR_URL" target="_blank" class="store-card shopee">
+        2. Change the badge from "Coming Soon" to "Visit Store →"
+        3. Close with </a> instead of </div>
+════════════════════════════════════════════════════ -->
+<section class="stores" id="stores">
+  <div class="text-center">
+    <span class="section-label">Shop Online</span>
+    <h2 class="section-title">Find Us on Your<br>Favorite Platform</h2>
+    <p class="section-sub">We're currently on Raket.ph, with more stores on the way!</p>
+    <p class="stores-note">More stores coming soon — bookmark this page so you don't miss them 🎉</p>
+  </div>
+
+  <div class="stores-grid">
+
+    <!-- ACTIVE STORE — uses <a href="..."> to link out -->
+    <a href="https://www.raket.ph/artycrafts_" target="_blank" class="store-card raket">
+      <div class="store-icon">🛍️</div>
+      <h3>Raket.ph</h3>
+      <p>Our main store! Browse all products and order directly through Raket, the Philippines' creative marketplace.</p>
+      <span class="store-badge" style="background:#EF9F27;">Visit Store →</span>
+    </a>
+
+    <!-- FACEBOOK — also a link -->
+    <a href="https://www.facebook.com/profile.php?id=61586335522119" target="_blank" class="store-card shopee">
+      <div class="store-icon">📘</div>
+      <h3>Facebook Page</h3>
+      <p>Follow us on Facebook for updates, new product drops, and behind-the-scenes content.</p>
+      <span class="store-badge" style="background:#378ADD;">Follow Us →</span>
+    </a>
+
+    <!-- COMING SOON — uses <div> (not a link), class="coming" greys it out -->
+    <!-- ✏️ When Shopee is ready: change <div class="store-card coming"> to
+         <a href="https://shopee.ph/yourstore" target="_blank" class="store-card shopee"> -->
+    <div class="store-card coming">
+      <div class="store-icon">🛒</div>
+      <h3>Shopee</h3>
+      <p>A Shopee store is coming soon! Stay tuned.</p>
+      <span class="store-badge" style="background:#aaa;">Coming Soon</span>
+    </div>
+
+    <!-- ✏️ When Lazada is ready: same swap as above -->
+    <div class="store-card coming">
+      <div class="store-icon">🛒</div>
+      <h3>Lazada</h3>
+      <p>A Lazada store is on the way. Watch this space!</p>
+      <span class="store-badge" style="background:#aaa;">Coming Soon</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     FOOTER
+     ✏️ Edit the links and copyright text
+════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(160, 60)">
+        <path d="M80,10 C110,5 160,20 170,60 C185,105 165,150 130,160 C100,168 60,155 40,130 C20,108 15,75 25,52 C38,22 55,14 80,10 Z" fill="#fff" opacity="0.15"/>
+        <circle cx="55" cy="42" r="10" fill="#E24B4A"/><circle cx="100" cy="28" r="10" fill="#EF9F27"/>
+        <circle cx="148" cy="48" r="10" fill="#639922"/><circle cx="158" cy="98" r="10" fill="#378ADD"/>
+        <circle cx="40" cy="95" r="10" fill="#7F77DD"/><circle cx="55" cy="142" r="10" fill="#D4537E"/>
+      </g>
+      <text x="390" y="148" font-size="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" fill="white">Arty</text>
+      <text x="390" y="220" font-size="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" fill="white">Crafts</text>
+    </svg>
+  </div>
+
+  <!-- ✏️ Add/remove links here as needed -->
+  <nav class="footer-links">
+    <a href="#products">Products</a>
+    <a href="#why">Why Us</a>
+    <a href="#stores">Stores</a>
+    <a href="https://www.raket.ph/artycrafts_" target="_blank">Raket.ph</a>
+    <a href="https://www.facebook.com/profile.php?id=61586335522119" target="_blank">Facebook</a>
+  </nav>
+
+  <div class="footer-dots">
+    <span style="background:#E24B4A"></span><span style="background:#EF9F27"></span>
+    <span style="background:#639922"></span><span style="background:#378ADD"></span>
+    <span style="background:#7F77DD"></span><span style="background:#D4537E"></span>
+    <span style="background:#1D9E75"></span>
+  </div>
+
+  <!-- ✏️ Update year and business name if needed -->
+  <p>© 2025 Arty Crafts · Bring Creativity Into Everything You Make · Philippines 🇵🇭</p>
+</footer>
+
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT — handles interactivity
+     You don't need to edit this unless you're adding features
+════════════════════════════════════════════════════ -->
+<script>
+  // Adds a border to the nav when user scrolls down
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Opens/closes the mobile hamburger menu
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+
+  // Makes all # links scroll smoothly instead of jumping
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('nav-links').classList.remove('open');
+      }
+    });
+  });
+
+  // Fades cards in as you scroll down the page
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.product-card, .why-card, .store-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
