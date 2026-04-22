@@ -65,7 +65,7 @@
     }
     nav.scrolled { border-bottom-color: #e8e0d0; }
 
-    .nav-logo svg { height: 44px; width: auto; max-width: 160px; } /* ← logo size in nav */
+    .nav-logo svg { height: 44px; width: 160px; max-width: 160px; overflow: visible; } /* ← logo size in nav */
 
     .nav-links {
       display: flex;
@@ -464,8 +464,9 @@
      the href="#section-id" and the text.
 ════════════════════════════════════════════════════ -->
 <nav id="nav">
-  <a href="#" class="nav-logo">
-    <!-- This is the SVG logo — don't edit unless you have a new logo file -->
+  <a href="#" class="nav-logo" style="text-decoration:none; font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:#2C2C2A;">
+  🎨 Arty Crafts
+</a>
     <svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
       <title>Arty Crafts Logo</title>
       <defs>
