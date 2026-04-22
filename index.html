@@ -59,12 +59,13 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 48px; /* ← top/bottom left/right spacing */
+      min-height: 68px;
       border-bottom: 2px solid transparent;
       transition: border-color 0.3s;
     }
     nav.scrolled { border-bottom-color: #e8e0d0; }
 
-    .nav-logo svg { height: 54px; width: auto; } /* ← logo size in nav */
+    .nav-logo svg { height: 44px; width: auto; max-width: 160px; } /* ← logo size in nav */
 
     .nav-links {
       display: flex;
