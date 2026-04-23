@@ -25,7 +25,7 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: #FDF8F0;
+      background: var(--cream);
       color: var(--dark);
       overflow-x: hidden;
     }
@@ -346,6 +346,10 @@
       border-radius: 20px;
       padding: 32px 28px;
       transition: transform 0.25s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .why-card:hover { transform: translateY(-4px); }
     .why-icon { font-size: 2.4rem; margin-bottom: 16px; }
@@ -597,6 +601,11 @@
       justify-content: center;
       flex-wrap: wrap;
       margin-bottom: 20px;
+      background: transparent;
+      backdrop-filter: none;
+      border: none;
+      padding: 0;
+      height: auto;
     }
     .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     .footer-links a:hover { color: var(--amber); }
@@ -804,7 +813,7 @@
 <section class="why" id="why">
   <div class="text-center">
     <span class="section-label">Why Arty Crafts</span>
-    <h2 class="section-title">Made With Heart,<br>Shipped With Care</h2>
+    <h2 class="section-title">Made With Heart,<br>Crafted With Care</h2>
   </div>
   <div class="why-grid">
     <div class="why-card">
@@ -815,7 +824,7 @@
     <div class="why-card">
       <div class="why-icon">💛</div>
       <h3>Made with Love</h3>
-      <p>We pour care into every piece, from the concept to the packaging you open at home.</p>
+      <p>We pour care into every piece, from the initial concept to the final digital file you download.</p>
     </div>
     <div class="why-card">
       <div class="why-icon">🌈</div>
