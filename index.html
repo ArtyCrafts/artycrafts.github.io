@@ -25,7 +25,7 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: var(--cream);
+      background: #FDF8F0;
       color: var(--dark);
       overflow-x: hidden;
     }
@@ -301,7 +301,7 @@
       border-radius: 20px;
       overflow: hidden;
       transition: transform 0.25s, box-shadow 0.25s;
-      cursor: default;
+      cursor: pointer;
     }
     .product-card:hover {
       transform: translateY(-6px);
@@ -392,11 +392,190 @@
       border-radius: 50px;
       color: var(--white);
     }
-    .store-card.raket   { background: #fffbf2; border-color: #f0d9a0; }
-    .store-card.shopee  { background: #fff5f0; border-color: #f9c4a8; }
-    .store-card.kofi    { background: #fff2f2; border-color: #ffb3b2; }
-    .store-card.gumroad { background: #f0fdf7; border-color: #a3e8ce; }
-    .store-card.coming  { background: #f8f8f8; border-color: #ddd; opacity: 0.7; pointer-events: none; }
+    .store-card.raket  { background: #fffbf2; border-color: #f0d9a0; }
+    .store-card.shopee { background: #fff5f0; border-color: #f9c4a8; }
+    .store-card.coming { background: #f8f8f8; border-color: #ddd; opacity: 0.7; pointer-events: none; }
+
+    /* ── PRODUCT FULL-SCREEN PAGE ── */
+    .product-page {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 2000;
+      overflow-y: auto;
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1), visibility 0s linear 0.38s;
+    }
+    .product-page.open {
+      display: block;
+      transform: translateX(0);
+      visibility: visible;
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1), visibility 0s linear 0s;
+    }
+    .pp-back {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(253,248,240,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #e8e0d0;
+      padding: 0 28px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pp-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 6px 0;
+      transition: color 0.2s;
+    }
+    .pp-back-btn:hover { color: var(--amber); }
+    .pp-back-btn svg { width: 18px; height: 18px; }
+    .pp-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .pp-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 680px) {
+      .pp-layout { grid-template-columns: 1fr; gap: 28px; }
+    }
+
+    /* Slider */
+    .pp-slider {
+      position: relative;
+      background: linear-gradient(135deg, #fff8ee, #fff0f5);
+      border-radius: 24px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    }
+    .pp-slides-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .pp-slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+    }
+    .pp-slide.active { display: flex; }
+    .pp-slide img {
+      max-height: 80%;
+      max-width: 80%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+    .pp-slide-emoji { font-size: 100px; }
+    .pp-slide-label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-top: 10px;
+      font-family: 'Nunito', sans-serif;
+    }
+    .pp-arr {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      border: 1px solid #e0d8cc;
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--dark);
+      user-select: none;
+      transition: background 0.15s;
+      z-index: 2;
+    }
+    .pp-arr:hover { background: #f5ede0; }
+    .pp-arr-l { left: 12px; }
+    .pp-arr-r { right: 12px; }
+    .pp-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+    }
+    .pp-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; cursor: pointer; transition: background 0.2s; }
+    .pp-dot.active { background: var(--dark); }
+    .pp-info { padding-top: 8px; }
+    .pp-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 14px;
+    }
+    .pp-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .pp-info > p {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    .pp-divider { border: none; border-top: 1.5px solid #f0e8dc; margin-bottom: 20px; }
+    .pp-get-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .pp-buy-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .pp-buy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 50px;
+      border: 1.5px solid #e0d8cc;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--dark);
+      background: var(--white);
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+    .pp-buy-btn:hover { background: var(--cream); border-color: #c8b898; transform: translateY(-2px); }
+    .pp-buy-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
     /* ── FOOTER ── */
     footer {
@@ -569,7 +748,7 @@
   </div>
 
   <div class="products-grid">
-    <div class="product-card">
+    <div class="product-card" onclick="openPage(0)">
       <div class="product-img">📚</div>
       <div class="product-info">
         <h3>Children's Books</h3>
@@ -577,7 +756,7 @@
         <span class="product-tag" style="background:#fff0e0;color:#EF9F27;">Fan Favorite</span>
       </div>
     </div>
-    <div class="product-card">
+    <div class="product-card" onclick="openPage(1)">
       <div class="product-img">☕</div>
       <div class="product-info">
         <h3>Custom Mugs</h3>
@@ -585,7 +764,7 @@
         <span class="product-tag" style="background:#e8f4ff;color:#378ADD;">Drinkware</span>
       </div>
     </div>
-    <div class="product-card">
+    <div class="product-card" onclick="openPage(2)">
       <div class="product-img">👕</div>
       <div class="product-info">
         <h3>Graphic Tees</h3>
@@ -593,7 +772,7 @@
         <span class="product-tag" style="background:#f0f9e8;color:#639922;">Apparel</span>
       </div>
     </div>
-    <div class="product-card">
+    <div class="product-card" onclick="openPage(3)">
       <div class="product-img">🃏</div>
       <div class="product-info">
         <h3>Flash Cards</h3>
@@ -601,7 +780,7 @@
         <span class="product-tag" style="background:#fce8f0;color:#D4537E;">Educational</span>
       </div>
     </div>
-    <div class="product-card">
+    <div class="product-card" onclick="openPage(4)">
       <div class="product-img">👜</div>
       <div class="product-info">
         <h3>Tote Bags</h3>
@@ -609,7 +788,7 @@
         <span class="product-tag" style="background:#eeedfb;color:#7F77DD;">Accessories</span>
       </div>
     </div>
-    <div class="product-card">
+    <div class="product-card" onclick="openPage(5)">
       <div class="product-img">🎨</div>
       <div class="product-info">
         <h3>Patches & Pins</h3>
@@ -657,7 +836,7 @@
   <div class="text-center">
     <span class="section-label">Shop Online</span>
     <h2 class="section-title">Find Us on Your<br>Favorite Platform</h2>
-    <p class="section-sub">Find us on Raket.ph, Ko-fi, Gumroad, and Facebook!</p>
+    <p class="section-sub">Find us on these platforms and get your Arty Crafts goodies today!</p>
   </div>
   <div class="stores-grid">
     <a href="https://www.raket.ph/artycrafts_" target="_blank" class="store-card raket">
@@ -666,23 +845,23 @@
       <p>Our main store! Browse all products and order directly through Raket, the Philippines' creative marketplace.</p>
       <span class="store-badge" style="background:#EF9F27;">Visit Store →</span>
     </a>
+    <a href="https://ko-fi.com/artycrafts" target="_blank" class="store-card" style="background:#fff5f5;border:2.5px solid #ffbdbc;">
+      <div class="store-icon">☕</div>
+      <h3>Ko-fi</h3>
+      <p>Support us and shop our digital and physical products directly through our Ko-fi page.</p>
+      <span class="store-badge" style="background:#FF5E5B;">Visit Store →</span>
+    </a>
+    <a href="https://artycrafts.gumroad.com/" target="_blank" class="store-card" style="background:#f0fdf8;border:2.5px solid #a0e9ce;">
+      <div class="store-icon">🟢</div>
+      <h3>Gumroad</h3>
+      <p>Get our digital products, printables, and more on Gumroad — instant download after purchase.</p>
+      <span class="store-badge" style="background:#36cf91;">Visit Store →</span>
+    </a>
     <a href="https://www.facebook.com/profile.php?id=61586335522119" target="_blank" class="store-card shopee">
       <div class="store-icon">📘</div>
       <h3>Facebook Page</h3>
       <p>Follow us on Facebook for updates, new product drops, and behind-the-scenes content.</p>
       <span class="store-badge" style="background:#378ADD;">Follow Us →</span>
-    </a>
-    <a href="https://ko-fi.com/artycrafts" target="_blank" class="store-card kofi">
-      <div class="store-icon">☕</div>
-      <h3>Ko-fi</h3>
-      <p>Support us and shop digital products on Ko-fi — every purchase fuels more creativity!</p>
-      <span class="store-badge" style="background:#FF5E5B;">Visit Ko-fi →</span>
-    </a>
-    <a href="https://artycrafts.gumroad.com/" target="_blank" class="store-card gumroad">
-      <div class="store-icon">🎨</div>
-      <h3>Gumroad</h3>
-      <p>Browse and download our digital products — art prints, templates, and more on Gumroad.</p>
-      <span class="store-badge" style="background:#36cf91;">Visit Gumroad →</span>
     </a>
   </div>
 </section>
@@ -691,13 +870,13 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">🎨 Arty Crafts</div>
-  <div class="footer-links">
+  <nav class="footer-links">
     <a href="#products">Products</a>
     <a href="#why">Why Us</a>
     <a href="#stores">Stores</a>
     <a href="https://www.raket.ph/artycrafts_" target="_blank">Raket.ph</a>
     <a href="https://www.facebook.com/profile.php?id=61586335522119" target="_blank">Facebook</a>
-  </div>
+  </nav>
   <div class="footer-dots">
     <span style="background:#E24B4A"></span><span style="background:#EF9F27"></span>
     <span style="background:#639922"></span><span style="background:#378ADD"></span>
@@ -706,6 +885,35 @@
   </div>
   <p>© 2025 Arty Crafts · Bring Creativity Into Everything You Make · Philippines 🇵🇭</p>
 </footer>
+
+
+<!-- PRODUCT FULL-SCREEN PAGE -->
+<div class="product-page" id="productPage">
+  <div class="pp-back">
+    <button class="pp-back-btn" onclick="closePage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to products
+    </button>
+  </div>
+  <div class="pp-inner">
+    <div class="pp-layout">
+      <div class="pp-slider">
+        <div class="pp-slides-wrap" id="ppSlides"></div>
+        <div class="pp-arr pp-arr-l" onclick="changePpSlide(-1)">&#8592;</div>
+        <div class="pp-arr pp-arr-r" onclick="changePpSlide(1)">&#8594;</div>
+        <div class="pp-dots" id="ppDots"></div>
+      </div>
+      <div class="pp-info">
+        <span class="pp-badge" id="ppBadge"></span>
+        <h2 id="ppName"></h2>
+        <p id="ppDesc"></p>
+        <hr class="pp-divider">
+        <p class="pp-get-label">Get it here</p>
+        <div class="pp-buy-links" id="ppLinks"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -742,6 +950,185 @@
     el.style.transform = 'translateY(24px)';
     el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     observer.observe(el);
+  });
+
+  /* ── PRODUCT MODAL DATA ── */
+  const products = [
+    {
+      name: "Children's Books",
+      badge: "Fan Favorite",
+      badgeBg: "#fff0e0", badgeColor: "#EF9F27",
+      desc: "Imaginative stories that fuel young minds — like The Cosmic Crayon Quest. Each book is lovingly illustrated to spark creativity in kids of all ages.",
+      slides: [
+        { emoji: "📚", label: "The Cosmic Crayon Quest" },
+        { emoji: "🌈", label: "Sample spread" },
+        { emoji: "✏️", label: "Illustrations" }
+      ],
+      links: [
+        { label: "Ko-fi", color: "#FF5E5B", url: "https://ko-fi.com/artycrafts" },
+        { label: "Gumroad", color: "#36cf91", url: "https://artycrafts.gumroad.com/" },
+        { label: "Raket.ph", color: "#EF9F27", url: "https://www.raket.ph/artycrafts_" }
+      ]
+    },
+    {
+      name: "Custom Mugs",
+      badge: "Drinkware",
+      badgeBg: "#e8f4ff", badgeColor: "#378ADD",
+      desc: "Start your day with art. Geometric designs printed to last on premium ceramic mugs.",
+      slides: [
+        { emoji: "☕", label: "Classic design" },
+        { emoji: "🎨", label: "Color options" },
+        { emoji: "🌿", label: "Detail shot" }
+      ],
+      links: [
+        { label: "Ko-fi", color: "#FF5E5B", url: "https://ko-fi.com/artycrafts" },
+        { label: "Gumroad", color: "#36cf91", url: "https://artycrafts.gumroad.com/" },
+        { label: "Raket.ph", color: "#EF9F27", url: "https://www.raket.ph/artycrafts_" }
+      ]
+    },
+    {
+      name: "Graphic Tees",
+      badge: "Apparel",
+      badgeBg: "#f0f9e8", badgeColor: "#639922",
+      desc: "Wear your personality. Original Arty Crafts art on premium 100% cotton tees.",
+      slides: [
+        { emoji: "👕", label: "Front design" },
+        { emoji: "🖼️", label: "Print close-up" },
+        { emoji: "📦", label: "Packaging" }
+      ],
+      links: [
+        { label: "Ko-fi", color: "#FF5E5B", url: "https://ko-fi.com/artycrafts" },
+        { label: "Gumroad", color: "#36cf91", url: "https://artycrafts.gumroad.com/" },
+        { label: "Raket.ph", color: "#EF9F27", url: "https://www.raket.ph/artycrafts_" }
+      ]
+    },
+    {
+      name: "Flash Cards",
+      badge: "Educational",
+      badgeBg: "#fce8f0", badgeColor: "#D4537E",
+      desc: "Cute illustrated flash cards perfect for early learners. Numbers, letters, animals and more.",
+      slides: [
+        { emoji: "🃏", label: "Numbers set" },
+        { emoji: "🔤", label: "Alphabet set" },
+        { emoji: "🌍", label: "Animals set" }
+      ],
+      links: [
+        { label: "Ko-fi", color: "#FF5E5B", url: "https://ko-fi.com/artycrafts" },
+        { label: "Gumroad", color: "#36cf91", url: "https://artycrafts.gumroad.com/" },
+        { label: "Raket.ph", color: "#EF9F27", url: "https://www.raket.ph/artycrafts_" }
+      ]
+    },
+    {
+      name: "Tote Bags",
+      badge: "Accessories",
+      badgeBg: "#eeedfb", badgeColor: "#7F77DD",
+      desc: "Carry your creativity everywhere. Canvas totes with original Arty Crafts prints.",
+      slides: [
+        { emoji: "👜", label: "Natural canvas" },
+        { emoji: "🎨", label: "Print detail" },
+        { emoji: "🛍️", label: "Lifestyle shot" }
+      ],
+      links: [
+        { label: "Ko-fi", color: "#FF5E5B", url: "https://ko-fi.com/artycrafts" },
+        { label: "Gumroad", color: "#36cf91", url: "https://artycrafts.gumroad.com/" },
+        { label: "Raket.ph", color: "#EF9F27", url: "https://www.raket.ph/artycrafts_" }
+      ]
+    },
+    {
+      name: "Patches & Pins",
+      badge: "Decor",
+      badgeBg: "#e8faf4", badgeColor: "#1D9E75",
+      desc: "Add a splash of art to jackets, bags, and more. Hand-illustrated designs that make every outfit pop.",
+      slides: [
+        { emoji: "🎨", label: "Patch designs" },
+        { emoji: "📌", label: "Pin collection" },
+        { emoji: "✨", label: "On jacket" }
+      ],
+      links: [
+        { label: "Ko-fi", color: "#FF5E5B", url: "https://ko-fi.com/artycrafts" },
+        { label: "Gumroad", color: "#36cf91", url: "https://artycrafts.gumroad.com/" },
+        { label: "Raket.ph", color: "#EF9F27", url: "https://www.raket.ph/artycrafts_" }
+      ]
+    }
+  ];
+
+  let ppSlideIndex = 0;
+  let ppProductIndex = 0;
+
+  function openPage(i) {
+    ppProductIndex = i;
+    ppSlideIndex = 0;
+    const p = products[i];
+
+    const badge = document.getElementById('ppBadge');
+    badge.textContent = p.badge;
+    badge.style.background = p.badgeBg;
+    badge.style.color = p.badgeColor;
+
+    document.getElementById('ppName').textContent = p.name;
+    document.getElementById('ppDesc').textContent = p.desc;
+
+    const slidesEl = document.getElementById('ppSlides');
+    slidesEl.innerHTML = '';
+    p.slides.forEach((s, j) => {
+      const div = document.createElement('div');
+      div.className = 'pp-slide' + (j === 0 ? ' active' : '');
+      if (s.img) {
+        div.innerHTML = '<img src="' + s.img + '" alt="' + s.label + '"><div class="pp-slide-label">' + s.label + '</div>';
+      } else {
+        div.innerHTML = '<div class="pp-slide-emoji">' + s.emoji + '</div><div class="pp-slide-label">' + s.label + '</div>';
+      }
+      slidesEl.appendChild(div);
+    });
+
+    const dotsEl = document.getElementById('ppDots');
+    dotsEl.innerHTML = p.slides.map((_, j) =>
+      '<div class="pp-dot' + (j === 0 ? ' active' : '') + '" onclick="goPpSlide(' + j + ')"></div>'
+    ).join('');
+
+    const linksEl = document.getElementById('ppLinks');
+    linksEl.innerHTML = p.links.map(l =>
+      '<a class="pp-buy-btn" href="' + l.url + '" target="_blank"><span class="pp-buy-dot" style="background:' + l.color + '"></span>' + l.label + '</a>'
+    ).join('');
+
+    const page = document.getElementById('productPage');
+    page.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        page.classList.add('open');
+        page.scrollTop = 0;
+      });
+    });
+  }
+
+  function closePage() {
+    const page = document.getElementById('productPage');
+    page.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { page.style.display = 'none'; }, 400);
+  }
+
+  function goPpSlide(n) {
+    const slides = document.querySelectorAll('.pp-slide');
+    const dots = document.querySelectorAll('.pp-dot');
+    slides.forEach((s, i) => s.classList.toggle('active', i === n));
+    dots.forEach((d, i) => d.classList.toggle('active', i === n));
+    ppSlideIndex = n;
+  }
+
+  function changePpSlide(dir) {
+    const total = products[ppProductIndex].slides.length;
+    goPpSlide((ppSlideIndex + dir + total) % total);
+  }
+
+  document.addEventListener('keydown', e => {
+    const page = document.getElementById('productPage');
+    if (page.style.display === 'block') {
+      if (e.key === 'Escape') closePage();
+      if (e.key === 'ArrowLeft') changePpSlide(-1);
+      if (e.key === 'ArrowRight') changePpSlide(1);
+    }
   });
 </script>
 
