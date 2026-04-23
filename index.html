@@ -289,7 +289,7 @@
     .products { background: var(--white); }
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       margin-top: 56px;
       max-width: 1100px;
@@ -633,6 +633,7 @@
         box-shadow: 0 8px 32px rgba(0,0,0,0.08);
       }
       .nav-links.open { display: flex; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
       .top-bar { height: auto; min-height: 40px; padding: 6px 12px; flex-wrap: wrap; gap: 4px; }
       .top-bar-label { display: none; }
       .top-bar-link { font-size: 0.68rem; padding: 4px 10px; }
@@ -813,7 +814,7 @@
 <section class="why" id="why">
   <div class="text-center">
     <span class="section-label">Why Arty Crafts</span>
-    <h2 class="section-title">Made With Heart,<br>Crafted With Care</h2>
+    <h2 class="section-title">Made With Heart,<br>Delivered Instantly</h2>
   </div>
   <div class="why-grid">
     <div class="why-card">
