@@ -361,12 +361,18 @@
     .stores-note { margin-top: 12px; font-size: 0.9rem; color: var(--muted); font-style: italic; }
     .stores-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
       margin-top: 56px;
-      max-width: 900px;
+      max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
+    }
+    @media (max-width: 900px) {
+      .stores-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .stores-grid { grid-template-columns: 1fr; }
     }
     .store-card {
       border-radius: 20px;
